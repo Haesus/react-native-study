@@ -1,0 +1,74 @@
+{
+  "expo": {
+    "name": "testRN",
+    "slug": "testRN",
+    "owner": "haesus",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.haesuyoun.testrn",
+      "buildNumber": "1",
+      "appleTeamId": "642YD8THHF",
+      "infoPlist": {
+        "NSCameraUsageDescription": "해수의 사진 촬영 테스트를 위해 카메라 접근이 필요합니다.",
+        "NSLocationWhenInUseUsageDescription": "현재 위치 표시 테스트를 위해 위치 접근이 필요합니다.",
+        "NSPhotoLibraryUsageDescription": "사진첩에서 이미지를 선택하기 위해 접근이 필요합니다.",
+        "NSPhotoLibraryAddUsageDescription": "촬영한 사진을 사진첩에 저장하기 위해 접근이 필요합니다."
+      }
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "해수의 사진 촬영 테스트를 위해 카메라 접근이 필요합니다.",
+          "microphonePermission": "해수의 동영상 촬영 테스트를 위해 마이크 접근이 필요합니다."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "현재 위치 표시 테스트를 위해 위치 접근이 필요합니다."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "해수의 사진첩에서 이미지를 선택하기 위해 접근이 필요합니다.",
+          "cameraPermission": "해수의 사진 촬영 테스트를 위해 카메라 접근이 필요합니다.",
+          "microphonePermission": "해수의 동영상 촬영 테스트를 위해 마이크 접근이 필요합니다."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "해수의 사진첩에서 이미지를 선택하기 위해 접근이 필요합니다.",
+          "savePhotosPermission": "해수의 촬영한 사진을 사진첩에 저장하기 위해 접근이 필요합니다."
+        }
+      ]
+    ],
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d83c003e-08b8-46ea-9ac8-f2e045a558a0"
+      }
+    }
+  }
+}
