@@ -30,6 +30,11 @@ Expo 기반 React Native 학습용 프로젝트입니다. 기본 UI 구성부터
   - 사진첩 권한 요청 및 이미지 선택
   - 촬영 이미지 사진첩 저장
   - 권한 거부 후 설정 이동 안내 Alert
+- 푸시 토큰 화면
+  - Expo Push Token, native device token 발급
+  - Expo Push API curl 테스트 예시 표시
+  - 푸시 수신/탭 payload 확인
+  - 알림 data의 `screen` 값으로 화면 이동
 - 제스처 화면
   - pan gesture
   - double tap gesture
@@ -54,14 +59,16 @@ Expo 기반 React Native 학습용 프로젝트입니다. 기본 UI 구성부터
 │   ├── constants
 │   │   └── api.js
 │   ├── navigation
-│   │   └── AppNavigator.js
+│   │   ├── AppNavigator.js
+│   │   └── navigationRef.js
 │   ├── screens
 │   │   ├── AnimationScreen.js
 │   │   ├── ApiScreen.js
 │   │   ├── DetailScreen.js
 │   │   ├── DeviceScreen.js
 │   │   ├── GesturesScreen.js
-│   │   └── HomeScreen.js
+│   │   ├── HomeScreen.js
+│   │   └── PushTokenScreen.js
 │   └── styles
 │       └── styles.js
 └── assets
@@ -124,6 +131,27 @@ npx expo run:ios --device
 - `expo-media-library`
 
 iOS는 한 번 권한을 거부하면 같은 시스템 권한 팝업을 계속 다시 띄우지 않습니다. 이 경우 앱에서는 Alert로 안내한 뒤 사용자가 선택하면 iOS 설정 앱으로 이동하게 처리합니다.
+
+## Expo Push 알림 테스트
+
+development build를 실기기에 설치한 뒤 앱의 `푸시 토큰` 화면에서 Expo Push Token을 발급합니다. 화면에 표시되는 curl 명령을 터미널에서 실행하면 별도 서버 없이 Expo Push API로 테스트 알림을 보낼 수 있습니다.
+
+```bash
+curl -X POST https://exp.host/--/api/v2/push/send \
+  -H "Content-Type: application/json" \
+  -d '{
+    "to": "ExpoPushToken[...]",
+    "sound": "default",
+    "title": "Expo 푸시 테스트",
+    "body": "curl로 보낸 테스트 알림입니다.",
+    "data": {
+      "screen": "PushToken",
+      "source": "curl"
+    }
+  }'
+```
+
+`data.screen`에는 `Home`, `Api`, `Device`, `PushToken`, `Gestures`, `Animation` 같은 navigation route 이름을 넣을 수 있습니다. 사용자가 알림을 탭하면 해당 화면으로 이동합니다.
 
 ## EAS Build
 

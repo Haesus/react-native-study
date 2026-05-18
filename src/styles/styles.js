@@ -300,4 +300,20 @@ export const styles = StyleSheet.create({
     fontWeight: '700',
     lineHeight: 22,
   },
+  tokenBox: {
+    backgroundColor: '#e2e8f0',
+    borderRadius: 8,
+    padding: 12,
+  },
+  tokenText: {
+    color: '#0f172a',
+    fontSize: 13,
+    lineHeight: 20,
+  },
+  codeText: {
+    color: '#0f172a',
+    fontFamily: 'Courier',
+    fontSize: 12,
+    lineHeight: 18,
+  },
 });
