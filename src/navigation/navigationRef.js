@@ -1,6 +1,14 @@
 import { createNavigationContainerRef } from '@react-navigation/native';
 
-const validRoutes = new Set(['Home', 'Api', 'Device', 'PushToken', 'Gestures', 'Animation']);
+const validRoutes = new Set([
+  'Home',
+  'Api',
+  'Device',
+  'PushToken',
+  'SocialLogin',
+  'Gestures',
+  'Animation',
+]);
 
 export const navigationRef = createNavigationContainerRef();
 

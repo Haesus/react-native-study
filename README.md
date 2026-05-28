@@ -14,6 +14,9 @@ Expo 기반 React Native 학습용 프로젝트입니다. 기본 UI 구성부터
 - Expo Location
 - Expo Image Picker
 - Expo Media Library
+- Expo Apple Authentication
+- React Native Google Sign-In
+- React Native Kakao
 
 ## 주요 기능
 
@@ -35,6 +38,13 @@ Expo 기반 React Native 학습용 프로젝트입니다. 기본 UI 구성부터
   - Expo Push API curl 테스트 예시 표시
   - 푸시 수신/탭 payload 확인
   - 알림 data의 `screen` 값으로 화면 이동
+- 소셜 로그인 화면
+  - Apple 네이티브 로그인 버튼
+  - Google 네이티브 로그인 버튼
+  - Kakao 네이티브 로그인 버튼
+  - provider별 로그인 응답 payload 확인
+  - Kakao access token과 사용자 profile 응답 확인
+  - Kakao URL Scheme과 Google iOS URL Scheme 확인
 - 제스처 화면
   - pan gesture
   - double tap gesture
@@ -48,6 +58,7 @@ Expo 기반 React Native 학습용 프로젝트입니다. 기본 UI 구성부터
 ```txt
 .
 ├── App.js
+├── app.config.js
 ├── app.json
 ├── babel.config.js
 ├── eas.json
@@ -57,7 +68,8 @@ Expo 기반 React Native 학습용 프로젝트입니다. 기본 UI 구성부터
 │   │   ├── PrimaryButton.js
 │   │   └── Screen.js
 │   ├── constants
-│   │   └── api.js
+│   │   ├── api.js
+│   │   └── auth.js
 │   ├── navigation
 │   │   ├── AppNavigator.js
 │   │   └── navigationRef.js
@@ -68,7 +80,8 @@ Expo 기반 React Native 학습용 프로젝트입니다. 기본 UI 구성부터
 │   │   ├── DeviceScreen.js
 │   │   ├── GesturesScreen.js
 │   │   ├── HomeScreen.js
-│   │   └── PushTokenScreen.js
+│   │   ├── PushTokenScreen.js
+│   │   └── SocialLoginScreen.js
 │   └── styles
 │       └── styles.js
 └── assets
@@ -131,6 +144,51 @@ npx expo run:ios --device
 - `expo-media-library`
 
 iOS는 한 번 권한을 거부하면 같은 시스템 권한 팝업을 계속 다시 띄우지 않습니다. 이 경우 앱에서는 Alert로 안내한 뒤 사용자가 선택하면 iOS 설정 앱으로 이동하게 처리합니다.
+
+## 소셜 로그인 테스트
+
+소셜 로그인 화면은 Home의 `소셜 로그인` 버튼에서 진입합니다. Apple은 iOS 실기기에서 native Sign in with Apple을 사용하고, Google은 `@react-native-google-signin/google-signin` 기반 native 로그인을 사용합니다. Kakao는 `@react-native-kakao/core` config plugin과 `@react-native-kakao/user` 기반 native 로그인을 사용합니다.
+
+앱 scheme은 `app.json`의 `expo.scheme`에 정의된 `testrn`입니다. Kakao native 로그인용 URL Scheme은 Native App Key 기준으로 `kakao{NATIVE_APP_KEY}` 형식으로 생성됩니다.
+
+```txt
+Kakao URL Scheme: kakao{NATIVE_APP_KEY}
+```
+
+로컬 테스트용 환경값은 `.env.local`에 넣습니다. `.env.local`은 git에 포함하지 않습니다.
+
+```bash
+EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID=your-ios-client-id.apps.googleusercontent.com
+EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID=your-web-client-id.apps.googleusercontent.com
+EXPO_PUBLIC_GOOGLE_IOS_URL_SCHEME=com.googleusercontent.apps.your-ios-client-id
+EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY=your-kakao-native-app-key
+```
+
+필요한 외부 설정은 다음과 같습니다.
+
+- Apple
+  - Apple Developer의 bundle identifier `com.younhaesu.testrn`에 Sign in with Apple capability 필요
+  - Expo 설정은 `app.json`의 `ios.usesAppleSignIn: true`와 `expo-apple-authentication` plugin에서 관리
+- Google
+  - Google Cloud Console 또는 Firebase에서 iOS OAuth Client 생성
+  - iOS bundle id는 `com.younhaesu.testrn`
+  - 발급받은 iOS Client ID를 `EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID`에 설정
+  - iOS Client의 reversed client id 또는 URL scheme을 `EXPO_PUBLIC_GOOGLE_IOS_URL_SCHEME`에 설정
+  - 필요하면 Web Client ID를 `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID`에 설정
+  - `EXPO_PUBLIC_GOOGLE_IOS_URL_SCHEME`이 있으면 `app.config.js`에서 Google Sign-In config plugin을 자동으로 추가
+- Kakao
+  - Kakao Developers 앱 생성
+  - iOS 플랫폼에 bundle id `com.younhaesu.testrn` 등록
+  - Native App Key를 `EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY`에 설정
+  - URL Scheme은 `@react-native-kakao/core` config plugin이 `kakao{NATIVE_APP_KEY}` 형식으로 생성
+  - Kakao Login 활성화 및 필요한 동의항목 설정
+  - 현재 테스트 화면은 Kakao native login 후 access token과 사용자 profile 조회까지 수행
+
+환경값 또는 native capability가 바뀐 뒤에는 development build를 다시 만들어야 합니다.
+
+```bash
+npx expo run:ios --device
+```
 
 ## Expo Push 알림 테스트
 

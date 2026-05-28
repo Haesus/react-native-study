@@ -116,6 +116,42 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '800',
   },
+  socialButton: {
+    alignItems: 'center',
+    borderRadius: 8,
+    height: 48,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
+  socialButtonDisabled: {
+    opacity: 0.48,
+  },
+  socialButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  appleAuthButton: {
+    height: 48,
+    width: '100%',
+  },
+  appleFallbackButton: {
+    backgroundColor: '#0f172a',
+  },
+  googleButton: {
+    backgroundColor: '#ffffff',
+    borderColor: '#cbd5e1',
+    borderWidth: 1,
+  },
+  googleButtonText: {
+    color: '#0f172a',
+  },
+  kakaoButton: {
+    backgroundColor: '#fee500',
+  },
+  kakaoButtonText: {
+    color: '#191919',
+  },
   switchRow: {
     alignItems: 'center',
     borderTopColor: '#e2e8f0',

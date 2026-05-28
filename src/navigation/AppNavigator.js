@@ -12,6 +12,7 @@ import DeviceScreen from '../screens/DeviceScreen';
 import GesturesScreen from '../screens/GesturesScreen';
 import HomeScreen from '../screens/HomeScreen';
 import PushTokenScreen from '../screens/PushTokenScreen';
+import SocialLoginScreen from '../screens/SocialLoginScreen';
 import { styles } from '../styles/styles';
 import { navigateFromNotification, navigationRef } from './navigationRef';
 
@@ -60,6 +61,11 @@ export default function AppNavigator() {
               name="PushToken"
               component={PushTokenScreen}
               options={{ title: '푸시 토큰' }}
+            />
+            <Stack.Screen
+              name="SocialLogin"
+              component={SocialLoginScreen}
+              options={{ title: '소셜 로그인' }}
             />
             <Stack.Screen name="Gestures" component={GesturesScreen} options={{ title: '제스처' }} />
             <Stack.Screen

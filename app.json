@@ -3,6 +3,7 @@
     "name": "testRN",
     "slug": "testRN",
     "owner": "haesus",
+    "scheme": "testrn",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,9 +16,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.haesuyoun.testrn",
+      "bundleIdentifier": "com.younhaesu.testrn",
       "buildNumber": "1",
       "appleTeamId": "3TGR3P459K",
+      "usesAppleSignIn": true,
       "infoPlist": {
         "NSCameraUsageDescription": "해수의 사진 촬영 테스트를 위해 카메라 접근이 필요합니다.",
         "NSLocationWhenInUseUsageDescription": "현재 위치 표시 테스트를 위해 위치 접근이 필요합니다.",
@@ -55,7 +57,8 @@
           "savePhotosPermission": "해수의 촬영한 사진을 사진첩에 저장하기 위해 접근이 필요합니다."
         }
       ],
-      "expo-notifications"
+      "expo-notifications",
+      "expo-apple-authentication"
     ],
     "android": {
       "adaptiveIcon": {
