@@ -66,6 +66,7 @@ export default function HomeScreen({ navigation }) {
           <PrimaryButton onPress={() => navigation.navigate('PushToken')}>푸시 토큰</PrimaryButton>
           <PrimaryButton onPress={() => navigation.navigate('SocialLogin')}>소셜 로그인</PrimaryButton>
           <PrimaryButton onPress={() => navigation.navigate('UIKitViews')}>RN 뷰 테스트</PrimaryButton>
+          <PrimaryButton onPress={() => navigation.navigate('BiometricAuth')}>Face ID</PrimaryButton>
           <PrimaryButton onPress={() => navigation.navigate('Gestures')}>제스처</PrimaryButton>
           <PrimaryButton onPress={() => navigation.navigate('Animation')}>애니메이션</PrimaryButton>
         </View>

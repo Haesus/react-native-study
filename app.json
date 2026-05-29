@@ -25,6 +25,7 @@
         "NSLocationWhenInUseUsageDescription": "현재 위치 표시 테스트를 위해 위치 접근이 필요합니다.",
         "NSPhotoLibraryUsageDescription": "사진첩에서 이미지를 선택하기 위해 접근이 필요합니다.",
         "NSPhotoLibraryAddUsageDescription": "촬영한 사진을 사진첩에 저장하기 위해 접근이 필요합니다.",
+        "NSFaceIDUsageDescription": "Face ID를 사용해 본인 인증 테스트를 진행합니다.",
         "ITSAppUsesNonExemptEncryption": false
       }
     },
@@ -60,6 +61,12 @@
       "expo-notifications",
       "expo-apple-authentication",
       "@react-native-community/datetimepicker",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Face ID를 사용해 본인 인증 테스트를 진행합니다."
+        }
+      ],
       [
         "expo-build-properties",
         {

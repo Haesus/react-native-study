@@ -7,6 +7,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import AnimationScreen from '../screens/AnimationScreen';
 import ApiScreen from '../screens/ApiScreen';
+import BiometricAuthScreen from '../screens/BiometricAuthScreen';
 import DetailScreen from '../screens/DetailScreen';
 import DeviceScreen from '../screens/DeviceScreen';
 import GesturesScreen from '../screens/GesturesScreen';
@@ -72,6 +73,11 @@ export default function AppNavigator() {
               name="UIKitViews"
               component={UIKitViewsScreen}
               options={{ title: 'RN 뷰 테스트' }}
+            />
+            <Stack.Screen
+              name="BiometricAuth"
+              component={BiometricAuthScreen}
+              options={{ title: 'Face ID 인증' }}
             />
             <Stack.Screen name="Gestures" component={GesturesScreen} options={{ title: '제스처' }} />
             <Stack.Screen
