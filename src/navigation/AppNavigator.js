@@ -13,6 +13,7 @@ import GesturesScreen from '../screens/GesturesScreen';
 import HomeScreen from '../screens/HomeScreen';
 import PushTokenScreen from '../screens/PushTokenScreen';
 import SocialLoginScreen from '../screens/SocialLoginScreen';
+import UIKitViewsScreen from '../screens/UIKitViewsScreen';
 import { styles } from '../styles/styles';
 import { navigateFromNotification, navigationRef } from './navigationRef';
 
@@ -66,6 +67,11 @@ export default function AppNavigator() {
               name="SocialLogin"
               component={SocialLoginScreen}
               options={{ title: '소셜 로그인' }}
+            />
+            <Stack.Screen
+              name="UIKitViews"
+              component={UIKitViewsScreen}
+              options={{ title: 'RN 뷰 테스트' }}
             />
             <Stack.Screen name="Gestures" component={GesturesScreen} options={{ title: '제스처' }} />
             <Stack.Screen
