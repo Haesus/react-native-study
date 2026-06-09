@@ -3,9 +3,10 @@ import { Switch, Text, TextInput, View } from 'react-native';
 
 import PrimaryButton from '../components/PrimaryButton';
 import Screen from '../components/Screen';
+import type { RootStackScreenProps } from '../navigation/types';
 import { styles } from '../styles/styles';
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation }: RootStackScreenProps<'Home'>) {
   const [count, setCount] = useState(0);
   const [name, setName] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);

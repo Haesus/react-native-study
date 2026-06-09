@@ -10,16 +10,24 @@ const authenticationTypeLabels = {
   [LocalAuthentication.AuthenticationType.FINGERPRINT]: 'Fingerprint / Touch ID',
   [LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION]: 'Face ID / 얼굴 인식',
   [LocalAuthentication.AuthenticationType.IRIS]: 'Iris / 홍채',
-};
+} satisfies Record<LocalAuthentication.AuthenticationType, string>;
 
-const securityLevelLabels = {
+const securityLevelLabels: Record<number, string> = {
   [LocalAuthentication.SecurityLevel.NONE]: 'NONE',
   [LocalAuthentication.SecurityLevel.SECRET]: 'SECRET',
   [LocalAuthentication.SecurityLevel.BIOMETRIC_WEAK]: 'BIOMETRIC_WEAK',
   [LocalAuthentication.SecurityLevel.BIOMETRIC_STRONG]: 'BIOMETRIC_STRONG',
 };
 
-function formatAuthenticationTypes(types) {
+type BiometricResult =
+  | LocalAuthentication.LocalAuthenticationResult
+  | {
+      success: false;
+      error: string;
+      warning?: string;
+    };
+
+function formatAuthenticationTypes(types: LocalAuthentication.AuthenticationType[]) {
   if (!types.length) {
     return '지원 타입 없음';
   }
@@ -32,9 +40,11 @@ export default function BiometricAuthScreen() {
   const [hasHardware, setHasHardware] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [securityLevel, setSecurityLevel] = useState(LocalAuthentication.SecurityLevel.NONE);
-  const [authenticationTypes, setAuthenticationTypes] = useState([]);
+  const [authenticationTypes, setAuthenticationTypes] = useState<
+    LocalAuthentication.AuthenticationType[]
+  >([]);
   const [disableDeviceFallback, setDisableDeviceFallback] = useState(false);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<BiometricResult | null>(null);
 
   const loadBiometricState = useCallback(async () => {
     setIsLoading(true);
@@ -52,10 +62,13 @@ export default function BiometricAuthScreen() {
       setSecurityLevel(nextSecurityLevel);
       setAuthenticationTypes(nextTypes);
     } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : '생체 인증 상태 확인에 실패했습니다.';
+
       setResult({
         success: false,
         error: 'state_check_failed',
-        warning: error.message || '생체 인증 상태 확인에 실패했습니다.',
+        warning: errorMessage,
       });
     } finally {
       setIsLoading(false);
@@ -78,6 +91,8 @@ export default function BiometricAuthScreen() {
 
     setResult(authenticationResult);
   };
+
+  const resultWarning = result && !result.success && 'warning' in result ? result.warning : undefined;
 
   return (
     <Screen scroll>
@@ -109,7 +124,7 @@ export default function BiometricAuthScreen() {
             </View>
             <View style={styles.infoRow}>
               <Text style={styles.label}>보안 레벨</Text>
-              <Text style={styles.infoValue}>{securityLevelLabels[securityLevel]}</Text>
+              <Text style={styles.infoValue}>{securityLevelLabels[securityLevel] ?? 'UNKNOWN'}</Text>
             </View>
             <View style={styles.infoColumn}>
               <Text style={styles.label}>지원 인증 타입</Text>
@@ -141,7 +156,7 @@ export default function BiometricAuthScreen() {
             <Text style={result.success ? styles.successText : styles.errorText}>
               {result.success ? '인증 성공' : `인증 실패: ${result.error}`}
             </Text>
-            {result.warning ? <Text style={styles.resultText}>{result.warning}</Text> : null}
+            {resultWarning ? <Text style={styles.resultText}>{resultWarning}</Text> : null}
           </View>
         ) : (
           <Text style={styles.resultText}>아직 인증을 실행하지 않았습니다.</Text>

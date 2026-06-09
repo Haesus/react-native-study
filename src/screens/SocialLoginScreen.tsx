@@ -6,8 +6,10 @@ import {
   me as getKakaoProfile,
 } from '@react-native-kakao/user';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import type { PropsWithChildren } from 'react';
 import { useEffect, useState } from 'react';
 import { Alert, Pressable, Text, View } from 'react-native';
+import type { PressableProps, StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 import Screen from '../components/Screen';
 import {
@@ -18,11 +20,24 @@ import {
 } from '../constants/auth';
 import { styles } from '../styles/styles';
 
-function formatJson(value) {
+function formatJson(value: unknown) {
   return JSON.stringify(value, null, 2);
 }
 
-function SocialButton({ children, disabled = false, style, textStyle, onPress }) {
+type SocialButtonProps = PropsWithChildren<{
+  disabled?: boolean;
+  style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  onPress?: PressableProps['onPress'];
+}>;
+
+function SocialButton({
+  children,
+  disabled = false,
+  style,
+  textStyle,
+  onPress,
+}: SocialButtonProps) {
   return (
     <Pressable
       disabled={disabled}
@@ -92,13 +107,16 @@ export default function SocialLoginScreen() {
         }),
       );
     } catch (error) {
-      if (error.code === 'ERR_REQUEST_CANCELED') {
+      if (typeof error === 'object' && error !== null && 'code' in error && error.code === 'ERR_REQUEST_CANCELED') {
         setLastProvider('Apple');
         setLastResult('사용자가 Apple 로그인을 취소했습니다.');
         return;
       }
 
-      Alert.alert('Apple 로그인 오류', error.message || '알 수 없는 오류가 발생했습니다.');
+      Alert.alert(
+        'Apple 로그인 오류',
+        error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
+      );
     }
   };
 
@@ -117,7 +135,10 @@ export default function SocialLoginScreen() {
       setLastProvider('Google');
       setLastResult(formatJson(response));
     } catch (error) {
-      Alert.alert('Google 로그인 오류', error.message || '알 수 없는 오류가 발생했습니다.');
+      Alert.alert(
+        'Google 로그인 오류',
+        error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
+      );
     }
   };
 
@@ -143,7 +164,9 @@ export default function SocialLoginScreen() {
       try {
         profile = await getKakaoProfile();
       } catch (profileError) {
-        profile = { error: profileError.message };
+        profile = {
+          error: profileError instanceof Error ? profileError.message : '프로필 조회 실패',
+        };
       }
 
       setLastProvider('Kakao');
@@ -159,7 +182,10 @@ export default function SocialLoginScreen() {
         }),
       );
     } catch (error) {
-      Alert.alert('Kakao 로그인 오류', error.message || '알 수 없는 오류가 발생했습니다.');
+      Alert.alert(
+        'Kakao 로그인 오류',
+        error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
+      );
     }
   };
 

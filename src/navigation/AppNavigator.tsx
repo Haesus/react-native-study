@@ -17,11 +17,12 @@ import SocialLoginScreen from '../screens/SocialLoginScreen';
 import UIKitViewsScreen from '../screens/UIKitViewsScreen';
 import { styles } from '../styles/styles';
 import { navigateFromNotification, navigationRef } from './navigationRef';
+import type { RootStackParamList } from './types';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function AppNavigator() {
-  const handleNotificationResponse = (response) => {
+  const handleNotificationResponse = (response: Notifications.NotificationResponse) => {
     const data = response.notification.request.content.data;
 
     if (!navigateFromNotification(data)) {

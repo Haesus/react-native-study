@@ -1,9 +1,10 @@
 import { Text, View } from 'react-native';
 
 import Screen from '../components/Screen';
+import type { RootStackScreenProps } from '../navigation/types';
 import { styles } from '../styles/styles';
 
-export default function DetailScreen({ route }) {
+export default function DetailScreen({ route }: RootStackScreenProps<'Detail'>) {
   const { post } = route.params;
 
   return (

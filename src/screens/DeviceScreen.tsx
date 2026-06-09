@@ -9,12 +9,17 @@ import PrimaryButton from '../components/PrimaryButton';
 import Screen from '../components/Screen';
 import { styles } from '../styles/styles';
 
+type PermissionLike = {
+  canAskAgain?: boolean;
+  granted?: boolean;
+};
+
 export default function DeviceScreen() {
-  const cameraRef = useRef(null);
+  const cameraRef = useRef<CameraView>(null);
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
   const [mediaPermission, requestMediaPermission] = MediaLibrary.usePermissions();
   const [locationPermissionStatus, setLocationPermissionStatus] = useState('unknown');
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState<Location.LocationObjectCoords | null>(null);
   const [selectedImageUri, setSelectedImageUri] = useState('');
   const [capturedImageUri, setCapturedImageUri] = useState('');
   const [message, setMessage] = useState('기능 버튼을 눌러 권한과 기기 API를 테스트하세요.');
@@ -29,7 +34,7 @@ export default function DeviceScreen() {
     }
   };
 
-  const showPermissionSettingsAlert = (permissionName) => {
+  const showPermissionSettingsAlert = (permissionName: string) => {
     setMessage(`${permissionName} 권한은 iOS 설정에서 직접 허용해야 합니다.`);
 
     Alert.alert(
@@ -48,12 +53,12 @@ export default function DeviceScreen() {
     );
   };
 
-  const showGrantedPermissionAlert = (permissionName) => {
+  const showGrantedPermissionAlert = (permissionName: string) => {
     setMessage(`${permissionName} 권한이 이미 허용되어 있습니다.`);
     Alert.alert('권한 확인', `${permissionName} 권한이 이미 허용되어 있습니다.`);
   };
 
-  const handleDeniedPermission = (permissionName, permission) => {
+  const handleDeniedPermission = (permissionName: string, permission: PermissionLike | null) => {
     if (permission?.canAskAgain === false) {
       showPermissionSettingsAlert(permissionName);
       return;

@@ -7,6 +7,8 @@ import PrimaryButton from '../components/PrimaryButton';
 import Screen from '../components/Screen';
 import { styles } from '../styles/styles';
 
+type PushPermission = Awaited<ReturnType<typeof Notifications.getPermissionsAsync>>;
+
 export default function PushTokenScreen() {
   const [permissionStatus, setPermissionStatus] = useState('unknown');
   const [iosPermissionStatus, setIosPermissionStatus] = useState('unknown');
@@ -77,9 +79,9 @@ export default function PushTokenScreen() {
     );
   };
 
-  const updatePermissionState = (permission) => {
+  const updatePermissionState = (permission: PushPermission) => {
     setPermissionStatus(permission.status);
-    setIosPermissionStatus(permission.ios?.status ?? 'unknown');
+    setIosPermissionStatus(String(permission.ios?.status ?? 'unknown'));
   };
 
   const requestNotificationPermission = async () => {
@@ -137,7 +139,8 @@ export default function PushTokenScreen() {
       setNativePushToken(nextNativeToken.data);
       setMessage('푸시 토큰을 가져왔습니다.');
     } catch (error) {
-      setMessage(`푸시 토큰을 가져오지 못했습니다: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : '알 수 없는 오류';
+      setMessage(`푸시 토큰을 가져오지 못했습니다: ${errorMessage}`);
     }
   };
 

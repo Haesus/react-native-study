@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import type { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import {
   ActivityIndicator,
   Alert,
@@ -49,10 +50,19 @@ const gridItems = [
 ];
 
 const pickerOptions = ['SwiftUI', 'UIKit', 'React Native', 'Expo'];
-const nativeTimeDisplayOptions = ['spinner', 'compact', 'inline', 'default'];
+type IosDateTimePickerDisplay = 'default' | 'compact' | 'inline' | 'spinner';
+
+const nativeTimeDisplayOptions: IosDateTimePickerDisplay[] = [
+  'spinner',
+  'compact',
+  'inline',
+  'default',
+];
 const hours = Array.from({ length: 24 }, (_, index) => index);
 const minutes = Array.from({ length: 12 }, (_, index) => index * 5);
 const wheelItemHeight = 44;
+
+type TableRow = (typeof tableRows)[number];
 
 const capabilityRows = [
   {
@@ -72,11 +82,11 @@ const capabilityRows = [
 export default function UIKitViewsScreen() {
   const [query, setQuery] = useState('');
   const [enabled, setEnabled] = useState(true);
-  const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedRow, setSelectedRow] = useState<TableRow | null>(null);
   const [selectedPickerValue, setSelectedPickerValue] = useState(pickerOptions[0]);
   const [selectedHour, setSelectedHour] = useState(9);
   const [selectedMinute, setSelectedMinute] = useState(30);
-  const [nativeTimeDisplay, setNativeTimeDisplay] = useState('spinner');
+  const [nativeTimeDisplay, setNativeTimeDisplay] = useState<IosDateTimePickerDisplay>('spinner');
   const [nativeTime, setNativeTime] = useState(() => {
     const initialDate = new Date();
     initialDate.setHours(9, 30, 0, 0);
@@ -120,14 +130,19 @@ export default function UIKitViewsScreen() {
     );
   };
 
-  const renderWheelColumn = (items, selectedValue, onSelect, suffix) => (
+  const renderWheelColumn = (
+    items: number[],
+    selectedValue: number,
+    onSelect: (value: number) => void,
+    suffix: string,
+  ) => (
     <View style={styles.wheelColumn}>
       <View pointerEvents="none" style={styles.wheelSelection} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         snapToInterval={wheelItemHeight}
         decelerationRate="fast"
-        contentOffset={{ y: items.indexOf(selectedValue) * wheelItemHeight }}
+        contentOffset={{ x: 0, y: items.indexOf(selectedValue) * wheelItemHeight }}
         contentContainerStyle={styles.wheelContent}
         onMomentumScrollEnd={(event) => {
           const index = Math.round(event.nativeEvent.contentOffset.y / wheelItemHeight);
@@ -261,7 +276,7 @@ export default function UIKitViewsScreen() {
             locale="ko-KR"
             textColor="#0f172a"
             themeVariant="light"
-            onChange={(event, selectedDate) => {
+            onChange={(_event: DateTimePickerEvent, selectedDate?: Date) => {
               if (selectedDate) {
                 setNativeTime(selectedDate);
               }

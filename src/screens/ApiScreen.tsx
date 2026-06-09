@@ -4,10 +4,11 @@ import { ActivityIndicator, FlatList, Pressable, Text, View } from 'react-native
 import PrimaryButton from '../components/PrimaryButton';
 import Screen from '../components/Screen';
 import { postsEndpoint } from '../constants/api';
+import type { Post, RootStackScreenProps } from '../navigation/types';
 import { styles } from '../styles/styles';
 
-export default function ApiScreen({ navigation }) {
-  const [posts, setPosts] = useState([]);
+export default function ApiScreen({ navigation }: RootStackScreenProps<'Api'>) {
+  const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -22,10 +23,10 @@ export default function ApiScreen({ navigation }) {
         throw new Error(`HTTP ${response.status}`);
       }
 
-      const nextPosts = await response.json();
+      const nextPosts = (await response.json()) as Post[];
       setPosts(nextPosts);
     } catch (error) {
-      setErrorMessage(error.message || 'API 호출에 실패했습니다.');
+      setErrorMessage(error instanceof Error ? error.message : 'API 호출에 실패했습니다.');
     } finally {
       setIsLoading(false);
     }
