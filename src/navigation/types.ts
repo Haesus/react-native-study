@@ -15,6 +15,7 @@ export type RootStackParamList = {
   PushToken: undefined;
   SocialLogin: undefined;
   UIKitViews: undefined;
+  LiquidGlass: undefined;
   BiometricAuth: undefined;
   Gestures: undefined;
   Animation: undefined;

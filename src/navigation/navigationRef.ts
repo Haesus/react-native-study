@@ -9,6 +9,7 @@ const validRoutes = new Set<keyof RootStackParamList>([
   'PushToken',
   'SocialLogin',
   'UIKitViews',
+  'LiquidGlass',
   'BiometricAuth',
   'Gestures',
   'Animation',

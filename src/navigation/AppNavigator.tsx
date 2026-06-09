@@ -12,6 +12,7 @@ import DetailScreen from '../screens/DetailScreen';
 import DeviceScreen from '../screens/DeviceScreen';
 import GesturesScreen from '../screens/GesturesScreen';
 import HomeScreen from '../screens/HomeScreen';
+import LiquidGlassScreen from '../screens/LiquidGlassScreen';
 import PushTokenScreen from '../screens/PushTokenScreen';
 import SocialLoginScreen from '../screens/SocialLoginScreen';
 import UIKitViewsScreen from '../screens/UIKitViewsScreen';
@@ -74,6 +75,11 @@ export default function AppNavigator() {
               name="UIKitViews"
               component={UIKitViewsScreen}
               options={{ title: 'RN 뷰 테스트' }}
+            />
+            <Stack.Screen
+              name="LiquidGlass"
+              component={LiquidGlassScreen}
+              options={{ title: 'Liquid Glass' }}
             />
             <Stack.Screen
               name="BiometricAuth"
